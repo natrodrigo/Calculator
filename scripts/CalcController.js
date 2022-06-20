@@ -49,16 +49,33 @@ class CalcController {
         this.displayCalc = 0;
         if (this.lastIsNumber()) { this._operation.pop() }
     }
-    igual() {
+    igual(operator) {
         console.log(this._operation)
-        this.displayCalc = Number(eval(this._operation.join('')).toFixed(3)).toString()
-        this._operation = []
+        let result
+        try {
+            result = Number(eval(this._operation.join('')).toFixed(3)).toString()
+        } catch (error) {
+            result = "S. Error"
+        }
+        
+        if(result.length > 9){
+            result = 'L. Number'
+            this.displayCalc = result
+        }
+        else if(operator){
+            this.displayCalc = result
+            this._operation = [this.displayCalc]
+            this._operation.push(operator)
+        }
+        else {
+            this.displayCalc = result
+            this._operation = []
+        }
+
     }
     soma() {
         if (this._operation.length == 3) {
-            this.igual()
-            this._operation = [this.displayCalc]
-            this._operation.push('+')
+            this.igual('+')
         }
 
         else if (this.lastIsOperator()) {
@@ -70,9 +87,7 @@ class CalcController {
     }
     subtracao() {
         if (this._operation.length == 3) {
-            this.igual()
-            this._operation = [this.displayCalc]
-            this._operation.push('-')
+            this.igual('-')
         }
 
         else if (this.lastIsOperator()) {
@@ -83,9 +98,7 @@ class CalcController {
     }
     divisao() {
         if (this._operation.length == 3) {
-            this.igual()
-            this._operation = [this.displayCalc]
-            this._operation.push('/')
+            this.igual('/')
         }
         else if (this.lastIsOperator()) {
             this._operation.pop()
@@ -95,9 +108,7 @@ class CalcController {
     }
     multiplicacao() {
         if (this._operation.length == 3) {
-            this.igual()
-            this._operation = [this.displayCalc]
-            this._operation.push('*')
+            this.igual('*')
         }
         else if (this.lastIsOperator()) {
             this._operation.pop()
