@@ -9,7 +9,6 @@ class CalcController{
         this._currentDate;
         this._flag = true;
         this._operation = []
-        this._operator = ''
         this.initialize();
         this.initButtonsEvents()
     }
@@ -31,87 +30,106 @@ class CalcController{
 
     ac(){
         this.displayCalc = 0;
-        this._flag = true;
         this._operation = [];
-        this._operator = '';
     }
     ce(){
         this.displayCalc = 0;
-        this._flag = true;}
+        if(this.lastIsNumber()){this._operation.pop()}
+    }
     igual(){
-        this._operation.push(this.displayCalc)
-        console.log(this._operation)
         this.displayCalc = Number(eval(this._operation.join('')).toFixed(3)).toString()
-        this._operation = []
-        this._flag = true;
+        this._operation = [this.displayCalc]
+        }
+    soma(){
+        if(this._operation.length == 3){
+            this.igual()
+            this._operation.push('+')
         }
 
-    soma(){ 
-        if(this._flag == true){this._operator = '+'}
-        else{
-            this._flag = true
-            this._operation.push(this.displayCalc)
-            this._operator = '+'
+        else if(this.lastIsOperator()){
+            this._operation.pop()
+            this._operation.push('+')
         }
+        else{this._operation.push('+')}
+        
     }
-
     subtracao(){
-        if(this._flag == true){this._operator = '-'}
-        else{
-            this._flag = true
-            this._operation.push(this.displayCalc)
-            this._operator = '-'
+        if(this._operation.length == 3){
+            this.igual()
+            this._operation.push('-')
         }
-    }
 
+        else if(this.lastIsOperator()){
+            this._operation.pop()
+            this._operation.push('-')
+        }
+        else{this._operation.push('-')}
+    }
     divisao(){ 
-        if(this._flag == true){this._operator = '/'}
-        else{
-            this._flag = true
-            this._operation.push(this.displayCalc)
-            this._operator = '/'
+        if(this._operation.length == 3){
+            this.igual()
+            this._operation.push('/')
         }
-    }
 
-    multiplicacao(){ 
-        if(this._flag == true){this._operator = '*'}
-        else{
-            this._flag = true
-            this._operation.push(this.displayCalc)
-            this._operator = '*'
+        else if(this.lastIsOperator()){
+            this._operation.pop()
+            this._operation.push('/')
         }
+        else{this._operation.push('/')}
+    }
+    multiplicacao(){ 
+        if(this._operation.length == 3){
+            this.igual()
+            this._operation.push('*')
+        }
+
+        else if(this.lastIsOperator()){
+            this._operation.pop()
+            this._operation.push('*')
+        }
+        else{this._operation.push('*')}
     }
 
     porcento(){}
 
     ponto(){
-        
-        if(this.displayCalc.length >= this.displayLimit){}
-        else if(this._flag == true){
-            
-            this.displayCalc = '.'
-            if(this._operator != ''){
-                this._operation.push(this._operator)
-                this._operator = ''
-            }
-            this._flag = false
+        if(this.displayCalc.length > 9){}
+        else if(this.lastIsNumber()){
+            let lastNumber = this._operation.pop()
+            this._operation.push(lastNumber+'.')
+            this.displayCalc = this.getLastItem()
         }
-        else this.displayCalc += '.'
+        else{}
     }
 
     num(btn){
-        console.log(this.displayLimit,'-',this.displayCalc.length )
-        if(this.displayCalc.length == this.displayLimit){}
-        else if(this._flag == true){
-            
-            this.displayCalc = btn
-            if(this._operator != ''){
-                this._operation.push(this._operator)
-                this._operator = ''
-            }
-            this._flag = false
+        if(this.displayCalc.length > 9){}
+        else if(this.lastIsNumber()){
+            let lastNumber = this._operation.pop()
+            this._operation.push(lastNumber+btn)
+            this.displayCalc = this.getLastItem()
         }
-        else this.displayCalc += btn
+        else{
+            this._operation.push(btn)
+            this.displayCalc = this.getLastItem()
+        }
+        
+    }
+    getLastItem(){
+        return this._operation[this._operation.length - 1]
+    }
+
+    lastIsNumber(){
+        if(this._operation.length == 0){return false}
+        if(!isNaN(this.getLastItem())){return true}
+        else return false
+    }
+
+    lastIsOperator(){
+        if(this.getLastItem() == '+' || this.getLastItem() == '-' || this.getLastItem() == '*' || this.getLastItem() == '/'){
+            return true
+        }
+        else return false
     }
 
     initButtonsEvents(){
