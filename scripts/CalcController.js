@@ -39,7 +39,6 @@ class CalcController {
             this._audio.currentTime=0;
             this._audio.play();
         }
-        else {window.navigator.vibrate(200);}
     }
 
     ac() {
