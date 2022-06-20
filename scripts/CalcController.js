@@ -5,6 +5,7 @@ class CalcController{
         this._displayEl = document.querySelector("#display")
         this._dateEl = document.querySelector("#data");
         this._timeEl = document.querySelector("#hora");
+        this._displayLimit = 10;
         this._currentDate;
         this._flag = true;
         this._operation = []
@@ -83,21 +84,25 @@ class CalcController{
 
     porcento(){}
 
-    ponto(btn){
-        if(this._flag == true){
-            this.displayCalc = btn
+    ponto(){
+        
+        if(this.displayCalc.length >= this.displayLimit){}
+        else if(this._flag == true){
+            
+            this.displayCalc = '.'
             if(this._operator != ''){
                 this._operation.push(this._operator)
                 this._operator = ''
             }
             this._flag = false
         }
-        else this.displayCalc += btn
+        else this.displayCalc += '.'
     }
 
     num(btn){
-        console.log(btn)
-        if(this._flag == true){
+        console.log(this.displayLimit,'-',this.displayCalc.length )
+        if(this.displayCalc.length == this.displayLimit){}
+        else if(this._flag == true){
             
             this.displayCalc = btn
             if(this._operator != ''){
@@ -161,9 +166,15 @@ class CalcController{
         this._currentDate = value;
     }
     get flag(){
-        this._flag
+        return this._flag
     }
     set flag(value){
         this._flag = value;
+    }
+    get displayLimit(){
+        return this._displayLimit
+    }
+    set displayLimit(value){
+        this._displayLimit = value;
     }
 }
