@@ -46,7 +46,7 @@ class CalcController {
         this._operation = [];
     }
     ce() {
-        this.displayCalc = 0;
+        this.displayCalc = "Te amo, Tania";
         if (this.lastIsNumber()) { this._operation.pop() }
     }
     igual(operator) {
