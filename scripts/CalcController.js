@@ -36,7 +36,7 @@ class CalcController {
 
     playAudio() {
         if (this._audioOnOff) {
-            this._audio.currentTime=0;
+            this._audio.currentTime = 0;
             this._audio.play();
         }
     }
@@ -46,7 +46,7 @@ class CalcController {
         this._operation = [];
     }
     ce() {
-        this.displayCalc = "Te amo, Tania";
+        this.displayCalc = 0;
         if (this.lastIsNumber()) { this._operation.pop() }
     }
     igual(operator) {
@@ -57,12 +57,12 @@ class CalcController {
         } catch (error) {
             result = "S. Error"
         }
-        
-        if(result.length > 9){
+
+        if (result.length > 9) {
             result = 'L. Number'
             this.displayCalc = result
         }
-        else if(operator){
+        else if (operator) {
             this.displayCalc = result
             this._operation = [this.displayCalc]
             this._operation.push(operator)
